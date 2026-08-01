@@ -2,6 +2,8 @@ name: .NET CI
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -11,7 +13,7 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: Setup .NET SDK
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
@@ -21,3 +23,15 @@ jobs:
 
       - name: Build Project
         run: dotnet build --configuration Release --no-restore
+
+      - name: Login Docker Hub
+        uses: actions/setup-dotnet@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build Docker Image
+        run: docker build -t ganapathiraom/taskapi:latest .
+
+      - name: Push Docker Image
+        run: docker push ganapathiraom/taskapi:latest .
