@@ -34,4 +34,4 @@ jobs:
         run: docker build -t ganapathiraom/taskapi:latest -f TaskManagement.API/Dockerfile .
 
       - name: Push Docker Image
-        run: docker push ganapathiraom/taskapi:latest
+        run: docker push ganapathiraom/taskapi:latest 
